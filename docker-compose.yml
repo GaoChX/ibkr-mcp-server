@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  ibkr-mcp-server:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - MCP__HOST=0.0.0.0
+      - MCP__PORT=8080
+      - IBKR__HOST=host.docker.internal  # For connecting to TWS/Gateway on host
+      - IBKR__PORT=7497
+      - IBKR__CLIENT_ID=1
+      - IBKR__READONLY=true
+      - LOGGING__LEVEL=INFO
+      - ENVIRONMENT=production
+    volumes:
+      - ./logs:/home/ibkr/logs
+      - ./config:/home/ibkr/config
+    restart: unless-stopped
+    networks:
+      - ibkr-network
+
+  # Optional: Add monitoring
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - ibkr-network
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin123
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - ibkr-network
+
+networks:
+  ibkr-network:
+    driver: bridge
+
+volumes:
+  grafana-storage: 
