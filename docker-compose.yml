@@ -9,7 +9,7 @@ services:
       - MCP__HOST=0.0.0.0
       - MCP__PORT=8080
       - IBKR__HOST=host.docker.internal  # For connecting to TWS/Gateway on host
-      - IBKR__PORT=7497
+      - IBKR__PORT=4002
       - IBKR__CLIENT_ID=1
       - IBKR__READONLY=true
       - LOGGING__LEVEL=INFO

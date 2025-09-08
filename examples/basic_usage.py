@@ -14,7 +14,7 @@ async def main():
     
     # Override some settings for example
     config.ibkr.host = "127.0.0.1"
-    config.ibkr.port = 7497
+    config.ibkr.port = 4002
     config.ibkr.readonly = True  # Use read-only mode for safety
     config.mcp.port = 8080
     

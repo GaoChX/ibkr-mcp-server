@@ -49,7 +49,7 @@ ibkr-mcp-server config --init
 
 ```bash
 # 测试 IBKR 连接
-ibkr-mcp-server test --host 127.0.0.1 --port 7497
+ibkr-mcp-server test --host 127.0.0.1 --port 4002
 ```
 
 ### 3. 启动服务器
@@ -71,7 +71,7 @@ ibkr-mcp-server serve --host 0.0.0.0 --port 8080 --debug
 | `MCP__HOST` | `0.0.0.0` | MCP 服务器监听地址 |
 | `MCP__PORT` | `8080` | MCP 服务器端口 |
 | `IBKR__HOST` | `127.0.0.1` | IBKR TWS/Gateway 地址 |
-| `IBKR__PORT` | `7497` | IBKR TWS/Gateway 端口 |
+| `IBKR__PORT` | `4002` | IBKR TWS/Gateway 端口 |
 | `IBKR__CLIENT_ID` | `1` | IBKR 客户端 ID |
 | `IBKR__READONLY` | `false` | 只读模式 |
 | `LOGGING__LEVEL` | `INFO` | 日志级别 |
@@ -85,7 +85,7 @@ MCP__PORT=8080
 
 # IBKR 连接设置
 IBKR__HOST=127.0.0.1
-IBKR__PORT=7497
+IBKR__PORT=4002
 IBKR__CLIENT_ID=1
 IBKR__READONLY=false
 

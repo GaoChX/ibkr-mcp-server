@@ -12,7 +12,7 @@ class IBKRConfig(BaseModel):
     """Interactive Brokers connection configuration."""
     
     host: str = Field(default="127.0.0.1", description="TWS/Gateway host")
-    port: int = Field(default=7497, description="TWS/Gateway port")
+    port: int = Field(default=4002, description="TWS/Gateway port")
     client_id: int = Field(default=1, description="Client ID for connection")
     readonly: bool = Field(default=False, description="Read-only mode")
     timeout: int = Field(default=30, description="Connection timeout in seconds")

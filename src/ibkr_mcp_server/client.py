@@ -160,8 +160,16 @@ class IBKRClient:
         self._ensure_connected()
         
         try:
-            # 使用 accountSummary() 方法，这是同步的但在ib-insync内部处理异步
+            import nest_asyncio
+            nest_asyncio.apply()
+            
             summary_items = self.ib.accountSummary()
+            
+            if not summary_items:
+                self.ib.reqAccountUpdates(True)
+                await asyncio.sleep(2)  # 等待更长时间
+                summary_items = self.ib.accountSummary()
+            
             return [
                 AccountSummary(
                     account=item.account,
@@ -173,14 +181,26 @@ class IBKRClient:
             ]
         except Exception as e:
             logger.error(f"Failed to get account summary: {e}")
-            raise MarketDataError(f"Account summary error: {e}")
+            try:
+                account_values = self.ib.accountValues()
+                result = []
+                for item in account_values[:10]:  
+                    result.append(AccountSummary(
+                        account=item.account,
+                        tag=item.tag,
+                        value=item.value,
+                        currency=item.currency
+                    ))
+                return result
+            except:
+                raise MarketDataError(f"Account summary error: {e}")
     
     async def get_account_values(self) -> List[AccountValue]:
         """Get account values."""
         self._ensure_connected()
         
         try:
-            account_values = self.ib.accountValues()
+            account_values = await self.ib.reqAccountUpdatesAsync()
             return [
                 AccountValue(
                     account=item.account,
@@ -199,8 +219,7 @@ class IBKRClient:
         self._ensure_connected()
         
         try:
-            # 使用正确的方法名 positions()
-            positions = self.ib.positions()
+            positions = await self.ib.reqPositionsAsync()
             result = []
             
             for pos in positions:
@@ -282,6 +301,7 @@ class IBKRClient:
         self._ensure_connected()
         
         try:
+            await self.ib.reqOpenOrdersAsync()
             return self.ib.openTrades()
         except Exception as e:
             logger.error(f"Failed to get open orders: {e}")

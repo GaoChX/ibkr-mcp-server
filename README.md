@@ -52,7 +52,7 @@ MCP__PORT=8080
 
 # IBKR Connection Settings
 IBKR__HOST=127.0.0.1
-IBKR__PORT=7497
+IBKR__PORT=4002
 IBKR__CLIENT_ID=1
 IBKR__READONLY=false
 
@@ -64,7 +64,7 @@ LOGGING__LEVEL=INFO
 
 ```bash
 # Test IBKR connection
-python -m ibkr_mcp_server.cli test --host 127.0.0.1 --port 7497
+python -m ibkr_mcp_server.cli test --host 127.0.0.1 --port 4002
 ```
 
 ### 3. Start Server
@@ -86,7 +86,7 @@ python -m ibkr_mcp_server.cli serve --host 0.0.0.0 --port 8080
 | `MCP__HOST` | `0.0.0.0` | MCP server listen address |
 | `MCP__PORT` | `8080` | MCP server port |
 | `IBKR__HOST` | `127.0.0.1` | IBKR TWS/Gateway address |
-| `IBKR__PORT` | `7497` | IBKR TWS/Gateway port |
+| `IBKR__PORT` | `4002` | IBKR TWS/Gateway port |
 | `IBKR__CLIENT_ID` | `1` | IBKR client ID |
 | `IBKR__READONLY` | `false` | Read-only mode |
 | `LOGGING__LEVEL` | `INFO` | Logging level |
@@ -95,7 +95,7 @@ python -m ibkr_mcp_server.cli serve --host 0.0.0.0 --port 8080
 
 | Platform | Demo Port | Live Port |
 |----------|-----------|-----------|
-| TWS | 7497 | 7496 |
+| TWS | 4002 | 7496 |
 | Gateway | 4002 | 4001 |
 
 ## MCP Tools
@@ -266,7 +266,7 @@ Add to your Claude Desktop MCP configuration:
       "args": ["-m", "ibkr_mcp_server.cli", "serve"],
       "env": {
         "IBKR__HOST": "127.0.0.1",
-        "IBKR__PORT": "7497",
+        "IBKR__PORT": "4002",
         "IBKR__CLIENT_ID": "1"
       }
     }

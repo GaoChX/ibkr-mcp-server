@@ -186,7 +186,7 @@ MCP__REQUEST_TIMEOUT=30
 
 # IBKR Connection Settings
 IBKR__HOST=127.0.0.1
-IBKR__PORT=7497
+IBKR__PORT=4002
 IBKR__CLIENT_ID=1
 IBKR__READONLY=false
 IBKR__TIMEOUT=30
@@ -216,7 +216,7 @@ DEBUG=false
 @app.command()
 def test(
     host: str = typer.Option("127.0.0.1", help="IBKR host"),
-    port: int = typer.Option(7497, help="IBKR port"),
+    port: int = typer.Option(4002, help="IBKR port"),
     client_id: int = typer.Option(1, help="Client ID"),
     timeout: int = typer.Option(10, help="Connection timeout"),
 ) -> None:
