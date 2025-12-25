@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  ibkr-mcp-server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ibkr-mcp-server-rust
+    ports:
+      - "8080:8080"
+    environment:
+      # IBKR 配置
+      - IBKR__HOST=${IBKR_HOST:-127.0.0.1}
+      - IBKR__PORT=${IBKR_PORT:-4002}
+      - IBKR__CLIENT_ID=${IBKR_CLIENT_ID:-1}
+      - IBKR__READONLY=${IBKR_READONLY:-false}
+      - IBKR__TIMEOUT=${IBKR_TIMEOUT:-30}
+      
+      # MCP 配置
+      - IBKR__MCP__HOST=0.0.0.0
+      - IBKR__MCP__PORT=8080
+      - IBKR__MCP__MAX_CONNECTIONS=${MCP_MAX_CONNECTIONS:-100}
+      
+      # 日志配置
+      - IBKR__LOGGING__LEVEL=${LOG_LEVEL:-info}
+      - IBKR__LOGGING__FORMAT=${LOG_FORMAT:-pretty}
+      
+      # 环境
+      - IBKR__ENVIRONMENT=${ENVIRONMENT:-production}
+      - RUST_LOG=${RUST_LOG:-ibkr_mcp_server=info,tower_http=debug,axum=debug}
+    
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    
+    networks:
+      - ibkr-network
+    
+    # 资源限制
+    deploy:
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+networks:
+  ibkr-network:
+    driver: bridge

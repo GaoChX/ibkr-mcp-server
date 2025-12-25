@@ -1,0 +1,59 @@
+[package]
+name = "ibkr-mcp-server"
+version = "0.1.0"
+edition = "2021"
+authors = ["IBKR MCP Server Contributors"]
+description = "Interactive Brokers MCP Server implementation in Rust"
+license = "MIT"
+
+[dependencies]
+# 异步运行时
+tokio = { version = "1.35", features = ["full"] }
+
+# HTTP 服务器框架
+axum = "0.7"
+
+# IBKR API 客户端
+ibapi = "0.3"
+
+# 序列化/反序列化
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# 错误处理
+thiserror = "1.0"
+anyhow = "1.0"
+
+# 日志系统
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# 配置管理
+config = "0.14"
+dotenvy = "0.15"
+
+# 日期时间
+chrono = { version = "0.4", features = ["serde"] }
+
+# HTTP 客户端
+reqwest = { version = "0.11", features = ["json"] }
+
+# Tower 中间件
+tower = { version = "0.4", features = ["util"] }
+tower-http = { version = "0.5", features = ["trace", "cors", "compression-full"] }
+
+# 其他工具
+async-trait = "0.1"
+futures = "0.3"
+rand = "0.8"
+
+[dev-dependencies]
+mockall = "0.12"
+tokio-test = "0.4"
+criterion = "0.5"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+strip = true
